@@ -251,10 +251,14 @@ var callbackURL = window.location.origin + window.location.pathname;
     
     actions.connectPlayer = connectPlayer;
     function connectPlayer(){
+        var tmpIsNot = ThisPage.getByAttr$({pageuse:"PlayerNotConnected"});
+        ThisApp.util.addTempLoader(tmpIsNot);
         ActionAppCore.spotifyPlayer.connect();
         //-- ToDo: Get connected message and use that
-        ThisApp.delay(3000).then(() => {refreshDeviceList()})
+        ThisApp.delay(3000).then(() => {ThisApp.util.removeTempLoader(tmpIsNot);refreshDeviceList()})
     }
+
+    
 
     actions.togglePlayer = togglePlayer;
     function togglePlayer(){
@@ -429,6 +433,23 @@ var callbackURL = window.location.origin + window.location.pathname;
             tmpIsNot.removeClass('hidden');
         }
     }
+
+    // function getEl$(theEl){
+    //     var tmpEl = theEl;
+    //     if (!ThisApp.util.isjQuery(tmpEl)){
+    //         tmpEl = $(tmpEl);            
+    //     }
+    //     return tmpEl;
+    // }
+
+    // function addTempLoader(theEl){
+    //     var tmpEl = getEl$(theEl);
+    //     tmpEl.append('<div appuse="actAppTempLoader" class="ui active dimmer"><div class="ui loader"></div></div>');
+    // }
+    // function removeTempLoader(theEl){
+    //     var tmpEl = getEl$(theEl);
+    //     ThisApp.getByAttr$({appuse:"actAppTempLoader"},tmpEl).remove();
+    // }
 
     ThisPage.getDevices = getDevices;
     function getDevices() {
